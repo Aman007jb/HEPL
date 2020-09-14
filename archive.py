@@ -40,22 +40,22 @@ for f in files:
     # print n
     no_events[0]=n
     # print no_events[0]
-    Ncount=tree.AsMatrix(columns=["Ncount"])
-    Npos=tree.AsMatrix(columns=["fNtrackPos"])
-    Nneg=tree.AsMatrix(columns=["fNtrackNeg"])
+    Ncount=np.squeeze(tree.AsMatrix(columns=["Ncount"],dtype="int"))
+    Npos=np.squeeze(tree.AsMatrix(columns=["fNtrackPos"],dtype="int"))
+    Nneg=np.squeeze(tree.AsMatrix(columns=["fNtrackNeg"],dtype="int"))
     Sum=Npos+Nneg
     Diff=abs(Npos-Nneg)
     inFile.Close()
+    events=Ncount.size
+    N_cmin[0],Ncount_opt_wid[0],c=optimize(Ncount,events)
     
-    N_cmin[0],Ncount_opt_wid[0]=optimize(Ncount)
-    
-    Npos_cmin[0],Npos_opt_wid[0]=optimize(Npos)
+    Npos_cmin[0],Npos_opt_wid[0],c=optimize(Npos,events)
     # print Npos_cmin[0],Npos_opt_wid[0]
-    Nneg_cmin[0],Nneg_opt_wid[0]=optimize(Nneg)
+    Nneg_cmin[0],Nneg_opt_wid[0],c=optimize(Nneg,events)
     # print Nneg_cmin[0],Nneg_opt_wid[0]
-    Sum_cmin[0],Sum_opt_wid[0]=optimize(Sum)
+    Sum_cmin[0],Sum_opt_wid[0],c=optimize(Sum,events)
     # print Sum_cmin[0],Sum_opt_wid[0]
-    Diff_cmin[0],Diff_opt_wid[0]=optimize(Diff)
+    Diff_cmin[0],Diff_opt_wid[0],c=optimize(Diff,events)
     # print Diff_cmin[0],Diff_opt_wid[0]
     treec.Fill()
     treew.Fill()
